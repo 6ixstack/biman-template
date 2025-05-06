@@ -8,7 +8,7 @@ import Home from './pages/Home';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/biman-template">
       <div className="flex flex-col min-h-screen bg-white font-sans">
         <Navbar />
         <main className="flex-1">

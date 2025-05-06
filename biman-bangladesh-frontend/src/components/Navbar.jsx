@@ -77,7 +77,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center hover:opacity-90 transition">
             <img 
-              src="/logo.png" 
+              src="/biman-template/logo.png" 
               alt="Biman Bangladesh Airlines" 
               className="h-12 object-contain"
               onError={(e) => {
