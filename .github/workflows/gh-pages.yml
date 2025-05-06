@@ -28,4 +28,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx gh-pages -d biman-bangladesh-frontend/dist -b gh-pages -u "github-actions-bot <support+actions@github.com>"
+          cd biman-bangladesh-frontend
+          npx gh-pages -d dist -b gh-pages -u "github-actions-bot <support+actions@github.com>"
