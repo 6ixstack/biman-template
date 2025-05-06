@@ -4,7 +4,10 @@ import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-// ... import other pages as you create them
+import Book from './pages/Book';
+import Manage from './pages/Manage';
+import CheckIn from './pages/CheckIn';
+import FlightStatus from './pages/FlightStatus';
 
 function App() {
   return (
@@ -14,7 +17,11 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* Add other routes here */}
+            <Route path="/book" element={<Book />} />
+            <Route path="/booking-confirmation" element={<Home />} />
+            <Route path="/manage" element={<Manage />} />
+            <Route path="/check-in" element={<CheckIn />} />
+            <Route path="/flight-status" element={<FlightStatus />} />
           </Routes>
         </main>
         <Footer />

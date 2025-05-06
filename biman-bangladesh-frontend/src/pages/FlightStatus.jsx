@@ -107,7 +107,7 @@ const FlightStatus = () => {
     // Random times
     const hour = 6 + Math.floor(Math.random() * 16); // 6 AM to 10 PM
     const minute = Math.floor(Math.random() * 12) * 5; // 0, 5, 10, 15, ... 55
-    const scheduledDeparture = \`\${hour.toString().padStart(2, '0')}:\${minute.toString().padStart(2, '0')}\`;
+    const scheduledDeparture = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
     
     // Actual departure time (with possible delay)
     let actualDepartureDate;
@@ -120,7 +120,7 @@ const FlightStatus = () => {
       actualDepartureDate.setHours(hour);
       actualDepartureDate.setMinutes(minute);
     }
-    const actualDeparture = \`\${actualDepartureDate.getHours().toString().padStart(2, '0')}:\${actualDepartureDate.getMinutes().toString().padStart(2, '0')}\`;
+    const actualDeparture = `${actualDepartureDate.getHours().toString().padStart(2, '0')}:${actualDepartureDate.getMinutes().toString().padStart(2, '0')}`;
     
     // Flight duration
     const durationHours = 1 + Math.floor(Math.random() * 12); // 1-13 hours
@@ -130,13 +130,13 @@ const FlightStatus = () => {
     const scheduledArrivalDate = new Date(flightDate);
     scheduledArrivalDate.setHours(hour + durationHours);
     scheduledArrivalDate.setMinutes(minute + durationMinutes);
-    const scheduledArrival = \`\${scheduledArrivalDate.getHours().toString().padStart(2, '0')}:\${scheduledArrivalDate.getMinutes().toString().padStart(2, '0')}\`;
+    const scheduledArrival = `${scheduledArrivalDate.getHours().toString().padStart(2, '0')}:${scheduledArrivalDate.getMinutes().toString().padStart(2, '0')}`;
     
     // Calculate actual arrival time
     const actualArrivalDate = new Date(actualDepartureDate);
     actualArrivalDate.setHours(actualDepartureDate.getHours() + durationHours);
     actualArrivalDate.setMinutes(actualDepartureDate.getMinutes() + durationMinutes);
-    const actualArrival = \`\${actualArrivalDate.getHours().toString().padStart(2, '0')}:\${actualArrivalDate.getMinutes().toString().padStart(2, '0')}\`;
+    const actualArrival = `${actualArrivalDate.getHours().toString().padStart(2, '0')}:${actualArrivalDate.getMinutes().toString().padStart(2, '0')}`;
     
     // Is arrival next day?
     const isNextDay = scheduledArrivalDate.getDate() !== flightDate.getDate();
@@ -175,12 +175,12 @@ const FlightStatus = () => {
     
     // Terminal and gate information
     const departureTerminal = ['1', '2', '3'][Math.floor(Math.random() * 3)];
-    const departureGate = \`G\${Math.floor(Math.random() * 30) + 1}\`;
+    const departureGate = `${Math.floor(Math.random() * 30) + 1}`;
     const arrivalTerminal = ['A', 'B', 'C', 'D'][Math.floor(Math.random() * 4)];
-    const arrivalGate = \`G\${Math.floor(Math.random() * 30) + 1}\`;
+    const arrivalGate = `${Math.floor(Math.random() * 30) + 1}`;
     
     setFlight({
-      flightNumber: searchMode === 'flightNumber' ? flightNumber : \`BG\${100 + Math.floor(Math.random() * 900)}\`,
+      flightNumber: searchMode === 'flightNumber' ? flightNumber : `${BG}${100 + Math.floor(Math.random() * 900)}`,
       status,
       origin,
       destination,
@@ -191,7 +191,7 @@ const FlightStatus = () => {
       actualArrival,
       isNextDay,
       aircraft,
-      duration: \`\${durationHours}h \${durationMinutes}m\`,
+      duration: `${durationHours}h ${durationMinutes}m`,
       flightPath,
       progressPercentage,
       departureTerminal,

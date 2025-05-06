@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Book = () => {
   const location = useLocation();
@@ -11,6 +11,12 @@ const Book = () => {
   const [fareClass, setFareClass] = useState('standard');
   const [bookingStep, setBookingStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedAddOns, setSelectedAddOns] = useState({
+    seats: null,
+    meal: null,
+    baggage: null,
+    extras: []
+  });
   
   // Passenger information structure
   const [passengers, setPassengers] = useState([
@@ -34,44 +40,6 @@ const Book = () => {
     outbound: [],
     return: []
   });
-
-  // Mock fare families
-  const fareFamilies = {
-    basic: {
-      name: 'Basic',
-      price: 0, // Additional price
-      features: [
-        'Cabin baggage only',
-        'No flight changes',
-        'No refunds',
-        'No seat selection'
-      ],
-      color: 'gray'
-    },
-    standard: {
-      name: 'Standard',
-      price: 50, // Additional price
-      features: [
-        '23kg checked baggage',
-        'Standard seat selection',
-        'Flight changes with fee',
-        'Partial refund available'
-      ],
-      color: 'bimanGreen'
-    },
-    flex: {
-      name: 'Flex',
-      price: 120, // Additional price
-      features: [
-        '32kg checked baggage',
-        'Premium seat selection',
-        'Free flight changes',
-        'Full refund available',
-        'Priority check-in'
-      ],
-      color: 'bimanGold'
-    }
-  };
 
   useEffect(() => {
     // Load data.json
@@ -102,13 +70,50 @@ const Book = () => {
         returnFlights = generateFlightsForDate(params.to, params.from, returnDate);
       }
       
+      // Sort by optimal flights first (mid-day, shortest duration)
+      const sortedOutbound = sortFlightsByOptimal(outboundFlights);
+      const sortedReturn = returnFlights.length > 0 ? sortFlightsByOptimal(returnFlights) : [];
+      
       setAvailableFlights({
-        outbound: outboundFlights,
-        return: returnFlights
+        outbound: sortedOutbound,
+        return: sortedReturn
       });
       
       setIsLoading(false);
     }, 1500);
+  };
+  
+  // Sort flights by optimal criteria
+  const sortFlightsByOptimal = (flights) => {
+    // Create a clone of the flights array to avoid mutating the original
+    return [...flights].sort((a, b) => {
+      // Prefer mid-day departures (between 9 AM and 3 PM)
+      const [aHour] = a.departTime.split(':').map(Number);
+      const [bHour] = b.departTime.split(':').map(Number);
+      
+      const aIsMidDay = aHour >= 9 && aHour <= 15;
+      const bIsMidDay = bHour >= 9 && bHour <= 15;
+      
+      if (aIsMidDay && !bIsMidDay) return -1;
+      if (!aIsMidDay && bIsMidDay) return 1;
+      
+      // Secondary sort: prefer shorter durations
+      const aDuration = parseDuration(a.duration);
+      const bDuration = parseDuration(b.duration);
+      
+      return aDuration - bDuration;
+    });
+  };
+  
+  // Parse duration string (e.g., "2h 30m") to minutes
+  const parseDuration = (durationStr) => {
+    const match = durationStr.match(/(\d+)h\s+(\d+)m/);
+    if (match) {
+      const hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      return hours * 60 + minutes;
+    }
+    return 0;
   };
 
   const generateFlightsForDate = (origin, destination, date) => {
@@ -143,13 +148,13 @@ const Book = () => {
       const durationMinutes = Math.floor(Math.random() * 12) * 5;
       
       // Format time strings
-      const departTime = \`\${hour.toString().padStart(2, '0')}:\${minute.toString().padStart(2, '0')}\`;
+      const departTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
       
       // Calculate arrival time
       const arrivalDate = new Date(date);
       arrivalDate.setHours(hour + durationHours);
       arrivalDate.setMinutes(minute + durationMinutes);
-      const arrivalTime = \`\${arrivalDate.getHours().toString().padStart(2, '0')}:\${arrivalDate.getMinutes().toString().padStart(2, '0')}\`;
+      const arrivalTime = `${arrivalDate.getHours().toString().padStart(2, '0')}:${arrivalDate.getMinutes().toString().padStart(2, '0')}`;
       
       // Check if arrival is next day
       const isNextDay = arrivalDate.getDate() !== date.getDate();
@@ -162,14 +167,14 @@ const Book = () => {
       const aircraft = aircraftTypes[Math.floor(Math.random() * aircraftTypes.length)];
       
       flights.push({
-        id: \`BG\${100 + Math.floor(Math.random() * 900)}\`,
+        id: `${BG}${100 + Math.floor(Math.random() * 900)}`,
         origin: origin,
         destination: destination,
         date: dateString,
         departTime: departTime,
         arrivalTime: arrivalTime,
         isNextDay: isNextDay,
-        duration: \`\${durationHours}h \${durationMinutes}m\`,
+        duration: `${durationHours}h ${durationMinutes}m`,
         aircraft: aircraft,
         prices: {
           basic: Math.round(basePrice * 0.8),
@@ -191,12 +196,12 @@ const Book = () => {
       const durationHours = 1 + Math.floor(Math.random() * 7);
       const durationMinutes = Math.floor(Math.random() * 12) * 5;
       
-      const departTime = \`\${hour.toString().padStart(2, '0')}:\${minute.toString().padStart(2, '0')}\`;
+      const departTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
       
       const arrivalDate = new Date(date);
       arrivalDate.setHours(hour + durationHours);
       arrivalDate.setMinutes(minute + durationMinutes);
-      const arrivalTime = \`\${arrivalDate.getHours().toString().padStart(2, '0')}:\${arrivalDate.getMinutes().toString().padStart(2, '0')}\`;
+      const arrivalTime = `${arrivalDate.getHours().toString().padStart(2, '0')}:${arrivalDate.getMinutes().toString().padStart(2, '0')}`;
       
       const isNextDay = arrivalDate.getDate() !== date.getDate();
       
@@ -206,14 +211,14 @@ const Book = () => {
       const aircraft = aircraftTypes[Math.floor(Math.random() * aircraftTypes.length)];
       
       flights.push({
-        id: \`BG\${100 + Math.floor(Math.random() * 900)}\`,
+        id: `${BG}${100 + Math.floor(Math.random() * 900)}`,
         origin: origin,
         destination: destination,
         date: dateString,
         departTime: departTime,
         arrivalTime: arrivalTime,
         isNextDay: isNextDay,
-        duration: \`\${durationHours}h \${durationMinutes}m\`,
+        duration: `${durationHours}h ${durationMinutes}m`,
         aircraft: aircraft,
         prices: {
           basic: Math.round(basePrice * 0.8),
@@ -283,8 +288,51 @@ const Book = () => {
     }
   };
 
-  const proceedToPayment = () => {
+  const proceedToAddOns = () => {
     setBookingStep(3);
+  };
+  
+  const proceedToPayment = () => {
+    setBookingStep(4);
+  };
+  
+  const handleSeatSelection = (seatType) => {
+    setSelectedAddOns(prev => ({
+      ...prev,
+      seats: seatType
+    }));
+  };
+  
+  const handleMealSelection = (mealType) => {
+    setSelectedAddOns(prev => ({
+      ...prev,
+      meal: mealType
+    }));
+  };
+  
+  const handleBaggageSelection = (baggageType) => {
+    setSelectedAddOns(prev => ({
+      ...prev,
+      baggage: baggageType
+    }));
+  };
+  
+  const toggleExtraAddon = (addonType) => {
+    setSelectedAddOns(prev => {
+      const extras = [...prev.extras];
+      const index = extras.indexOf(addonType);
+      
+      if (index === -1) {
+        extras.push(addonType);
+      } else {
+        extras.splice(index, 1);
+      }
+      
+      return {
+        ...prev,
+        extras
+      };
+    });
   };
 
   const completeBooking = () => {
@@ -304,13 +352,68 @@ const Book = () => {
     }, 2000);
   };
 
+  const getAddonsCost = () => {
+    if (!data?.bookingExperience) return 0;
+    
+    let total = 0;
+    
+    // Seat selection
+    if (selectedAddOns.seats) {
+      const seatOption = data.bookingExperience.seatingOptions?.find(
+        seat => seat.type === selectedAddOns.seats
+      );
+      if (seatOption && typeof seatOption.price === 'number') {
+        total += seatOption.price * passengers.length;
+      }
+    }
+    
+    // Meal selection
+    if (selectedAddOns.meal) {
+      const mealOption = data.bookingExperience.mealsOptions?.find(
+        meal => meal.type === selectedAddOns.meal
+      );
+      if (mealOption && typeof mealOption.price === 'number') {
+        total += mealOption.price * passengers.length;
+      }
+    }
+    
+    // Baggage selection
+    if (selectedAddOns.baggage) {
+      const baggageOption = data.bookingExperience.baggageOptions?.find(
+        baggage => baggage.weight === selectedAddOns.baggage
+      );
+      if (baggageOption && typeof baggageOption.price === 'number') {
+        total += baggageOption.price * passengers.length;
+      }
+    }
+    
+    // Extra add-ons
+    if (selectedAddOns.extras && selectedAddOns.extras.length > 0) {
+      selectedAddOns.extras.forEach(extraType => {
+        const addonOption = data.bookingExperience.addOns?.find(
+          addon => addon.type === extraType
+        );
+        if (addonOption && typeof addonOption.price === 'number') {
+          total += addonOption.price * passengers.length;
+        }
+      });
+    }
+    
+    return total;
+  };
+  
   const getTotalPrice = () => {
     if (!selectedFlights.outbound) return 0;
     
-    const outboundPrice = selectedFlights.outbound.prices[fareClass];
-    const returnPrice = selectedFlights.return ? selectedFlights.return.prices[fareClass] : 0;
+    // Flight costs
+    const outboundPrice = selectedFlights.outbound.prices?.[fareClass] || 0;
+    const returnPrice = selectedFlights.return?.prices?.[fareClass] || 0;
+    const flightsCost = (outboundPrice + returnPrice) * passengers.length;
     
-    return (outboundPrice + returnPrice) * passengers.length;
+    // Addons cost
+    const addonsCost = getAddonsCost();
+    
+    return flightsCost + addonsCost;
   };
 
   if (!data || !searchParams) {
@@ -328,19 +431,36 @@ const Book = () => {
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-0">Book Your Flight</h1>
-            <div className="flex items-center space-x-2 md:space-x-4">
-              <div className={`flex items-center ${bookingStep >= 1 ? 'text-bimanGreen' : 'text-gray-400'}`}>
+            <div className="flex items-center space-x-2 md:space-x-3">
+              <div 
+                onClick={() => bookingStep > 1 && setBookingStep(1)}
+                className={`flex items-center cursor-pointer ${bookingStep >= 1 ? 'text-bimanGreen' : 'text-gray-400'}`}
+              >
                 <div className={`h-8 w-8 rounded-full flex items-center justify-center mr-2 ${bookingStep >= 1 ? 'bg-bimanGreen text-white' : 'bg-gray-200 text-gray-500'}`}>1</div>
-                <span className="hidden md:inline font-medium">Select Flights</span>
+                <span className="hidden md:inline font-medium">Flights</span>
               </div>
-              <div className="w-8 h-0.5 bg-gray-300"></div>
-              <div className={`flex items-center ${bookingStep >= 2 ? 'text-bimanGreen' : 'text-gray-400'}`}>
+              <div className="w-4 h-0.5 bg-gray-300"></div>
+              
+              <div 
+                onClick={() => bookingStep > 2 && selectedFlights.outbound && setBookingStep(2)}
+                className={`flex items-center cursor-pointer ${bookingStep >= 2 ? 'text-bimanGreen' : 'text-gray-400'}`}
+              >
                 <div className={`h-8 w-8 rounded-full flex items-center justify-center mr-2 ${bookingStep >= 2 ? 'bg-bimanGreen text-white' : 'bg-gray-200 text-gray-500'}`}>2</div>
-                <span className="hidden md:inline font-medium">Passenger Details</span>
+                <span className="hidden md:inline font-medium">Travelers</span>
               </div>
-              <div className="w-8 h-0.5 bg-gray-300"></div>
-              <div className={`flex items-center ${bookingStep >= 3 ? 'text-bimanGreen' : 'text-gray-400'}`}>
+              <div className="w-4 h-0.5 bg-gray-300"></div>
+              
+              <div 
+                onClick={() => bookingStep > 3 && selectedFlights.outbound && setBookingStep(3)}
+                className={`flex items-center cursor-pointer ${bookingStep >= 3 ? 'text-bimanGreen' : 'text-gray-400'}`}
+              >
                 <div className={`h-8 w-8 rounded-full flex items-center justify-center mr-2 ${bookingStep >= 3 ? 'bg-bimanGreen text-white' : 'bg-gray-200 text-gray-500'}`}>3</div>
+                <span className="hidden md:inline font-medium">Add-ons</span>
+              </div>
+              <div className="w-4 h-0.5 bg-gray-300"></div>
+              
+              <div className={`flex items-center ${bookingStep >= 4 ? 'text-bimanGreen' : 'text-gray-400'}`}>
+                <div className={`h-8 w-8 rounded-full flex items-center justify-center mr-2 ${bookingStep >= 4 ? 'bg-bimanGreen text-white' : 'bg-gray-200 text-gray-500'}`}>4</div>
                 <span className="hidden md:inline font-medium">Payment</span>
               </div>
             </div>
@@ -411,45 +531,73 @@ const Book = () => {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">Select Fare Type</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Object.entries(fareFamilies).map(([key, family]) => (
-                  <div 
-                    key={key}
-                    onClick={() => setFareClass(key)}
-                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                      fareClass === key 
-                        ? `border-${family.color} bg-${family.color}/5` 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className={`font-bold text-lg ${fareClass === key ? `text-${family.color}` : 'text-gray-800'}`}>{family.name}</h3>
-                      <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${
+                {data?.bookingExperience?.fareFamilies.map((family, index) => {
+                  const key = family.name.toLowerCase();
+                  const colorClass = family.color === 'bimanGreen' ? 'text-bimanGreen border-bimanGreen bg-bimanGreen/5' : 
+                                  family.color === 'bimanGold' ? 'text-bimanGold border-bimanGold bg-bimanGold/5' : 
+                                  'text-gray-500 border-gray-500 bg-gray-100/5';
+                  
+                  return (
+                    <div 
+                      key={index}
+                      onClick={() => setFareClass(key)}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
                         fareClass === key 
-                          ? `border-${family.color}` 
-                          : 'border-gray-400'
-                      }`}>
-                        {fareClass === key && (
-                          <div className={`h-3 w-3 rounded-full bg-${family.color}`}></div>
-                        )}
+                          ? colorClass
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-3">
+                        <h3 className={`font-bold text-lg ${fareClass === key ? (family.color === 'bimanGreen' ? 'text-bimanGreen' : family.color === 'bimanGold' ? 'text-bimanGold' : 'text-gray-500') : 'text-gray-800'}`}>
+                          {family.name}
+                        </h3>
+                        
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${
+                          fareClass === key 
+                            ? (family.color === 'bimanGreen' ? 'border-bimanGreen' : family.color === 'bimanGold' ? 'border-bimanGold' : 'border-gray-500')
+                            : 'border-gray-400'
+                        }`}>
+                          {fareClass === key && (
+                            <div className={`h-3 w-3 rounded-full ${family.color === 'bimanGreen' ? 'bg-bimanGreen' : family.color === 'bimanGold' ? 'bg-bimanGold' : 'bg-gray-500'}`}></div>
+                          )}
+                        </div>
                       </div>
+                      
+                      <ul className="space-y-2 text-sm mb-4">
+                        {family.features.map((feature, fIndex) => (
+                          <li key={fIndex} className="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-green-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            <span className="text-gray-600">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      {family.notIncluded && family.notIncluded.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="text-xs text-gray-500 font-medium mb-1">Not included:</h4>
+                          <ul className="space-y-1 text-sm">
+                            {family.notIncluded.map((feature, fIndex) => (
+                              <li key={`not-${fIndex}`} className="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-gray-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                </svg>
+                                <span className="text-gray-500">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {family.price > 0 ? (
+                        <div className="font-medium text-right">+${family.price.toFixed(2)}</div>
+                      ) : (
+                        <div className="font-medium text-right">Base fare</div>
+                      )}
                     </div>
-                    <ul className="space-y-2 text-sm mb-4">
-                      {family.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-green-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-gray-600">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    {family.price > 0 ? (
-                      <div className="font-medium text-right">+${family.price}</div>
-                    ) : (
-                      <div className="font-medium text-right">Base fare</div>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
             
@@ -513,7 +661,7 @@ const Book = () => {
                         
                         <div className="text-right">
                           <div className="text-sm text-gray-500 mb-1">Fare</div>
-                          <div className="font-bold text-lg text-bimanGreen">${flight.prices[fareClass]}</div>
+                          <div className="font-bold text-lg text-bimanGreen">${flight.prices[fareClass].toFixed(2)}</div>
                           <div className="text-xs text-gray-500">per passenger</div>
                         </div>
                       </div>
@@ -762,6 +910,167 @@ const Book = () => {
                 </button>
                 
                 <button
+                  onClick={proceedToAddOns}
+                  className="px-6 py-3 bg-bimanGreen hover:bg-green-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5"
+                >
+                  Continue to Add-ons
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {bookingStep === 3 && (
+          /* Add-ons */
+          <div className="space-y-8">
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-6">Enhance Your Journey</h2>
+              <p className="text-gray-600 mb-8">Customize your travel experience with these optional add-ons.</p>
+
+              {/* Seat Selection */}
+              <div className="mb-10">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Select Your Seat</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {data?.bookingExperience?.seatingOptions.map((seat, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => handleSeatSelection(seat.type)}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                        selectedAddOns.seats === seat.type 
+                          ? 'border-bimanGreen bg-bimanGreen/5' 
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium">{seat.name}</h4>
+                        <div className="flex items-center justify-center h-5 w-5">
+                          {selectedAddOns.seats === seat.type && (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-bimanGreen" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{seat.description}</p>
+                      <div className="font-medium text-bimanGreen text-right">
+                        {seat.price === 0 ? 'Included' : `+$${seat.price.toFixed(2)}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Meal Selection */}
+              <div className="mb-10">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Choose Your Meal</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {data?.bookingExperience?.mealsOptions.map((meal, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => handleMealSelection(meal.type)}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                        selectedAddOns.meal === meal.type 
+                          ? 'border-bimanGreen bg-bimanGreen/5' 
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium">{meal.name}</h4>
+                        <div className="flex items-center justify-center h-5 w-5">
+                          {selectedAddOns.meal === meal.type && (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-bimanGreen" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{meal.description}</p>
+                      <div className="font-medium text-bimanGreen text-right">
+                        {meal.price === 0 ? 'Included' : `+$${meal.price.toFixed(2)}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Baggage Selection */}
+              <div className="mb-10">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Extra Baggage</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {data?.bookingExperience?.baggageOptions.map((baggage, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => handleBaggageSelection(baggage.weight)}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                        selectedAddOns.baggage === baggage.weight 
+                          ? 'border-bimanGreen bg-bimanGreen/5' 
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium">{baggage.weight}</h4>
+                        <div className="flex items-center justify-center h-5 w-5">
+                          {selectedAddOns.baggage === baggage.weight && (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-bimanGreen" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{baggage.description}</p>
+                      <div className="font-medium text-bimanGreen text-right">
+                        {baggage.price === 0 ? 'Included' : `+$${baggage.price.toFixed(2)}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Additional Services */}
+              <div className="mb-10">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Additional Services</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {data?.bookingExperience?.addOns.map((addon, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => toggleExtraAddon(addon.type)}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                        selectedAddOns.extras.includes(addon.type) 
+                          ? 'border-bimanGreen bg-bimanGreen/5' 
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium">{addon.name}</h4>
+                        <div className="w-5 h-5 rounded border flex items-center justify-center overflow-hidden">
+                          {selectedAddOns.extras.includes(addon.type) ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-bimanGreen" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          ) : null}
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{addon.description}</p>
+                      <div className="font-medium text-bimanGreen text-right">
+                        +${addon.price.toFixed(2)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => setBookingStep(2)}
+                  className="flex items-center text-bimanGreen hover:text-bimanGreen/80 transition"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                  </svg>
+                  Back to Passenger Details
+                </button>
+                
+                <button
                   onClick={proceedToPayment}
                   className="px-6 py-3 bg-bimanGreen hover:bg-green-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5"
                 >
@@ -772,7 +1081,7 @@ const Book = () => {
           </div>
         )}
 
-        {bookingStep === 3 && (
+        {bookingStep === 4 && (
           /* Payment */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -983,26 +1292,85 @@ const Book = () => {
                     </span>
                   </div>
                   
+                  {/* Outbound fare */}
                   <div className="flex justify-between py-2">
-                    <span className="text-gray-600">Base fare</span>
-                    <span>${selectedFlights.outbound?.prices[fareClass] || 0}</span>
+                    <span className="text-gray-600">Outbound fare</span>
+                    <span>${(selectedFlights.outbound?.prices[fareClass] || 0).toFixed(2)} × {passengers.length}</span>
                   </div>
                   
+                  {/* Return fare if applicable */}
                   {selectedFlights.return && (
                     <div className="flex justify-between py-2">
                       <span className="text-gray-600">Return fare</span>
-                      <span>${selectedFlights.return?.prices[fareClass] || 0}</span>
+                      <span>${(selectedFlights.return?.prices[fareClass] || 0).toFixed(2)} × {passengers.length}</span>
                     </div>
                   )}
                   
-                  <div className="flex justify-between py-2">
-                    <span className="text-gray-600">Taxes & Fees</span>
-                    <span>${Math.round(getTotalPrice() * 0.12)}</span>
+                  {/* Seat selection */}
+                  {selectedAddOns.seats && data?.bookingExperience?.seatingOptions && (
+                    <div className="flex justify-between py-2">
+                      <span className="text-gray-600">
+                        {data.bookingExperience.seatingOptions.find(s => s.type === selectedAddOns.seats)?.name || 'Seat selection'}
+                      </span>
+                      <span>
+                        ${(data.bookingExperience.seatingOptions.find(s => s.type === selectedAddOns.seats)?.price || 0).toFixed(2)} × {passengers.length}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Meal selection */}
+                  {selectedAddOns.meal && data?.bookingExperience?.mealsOptions && (
+                    <div className="flex justify-between py-2">
+                      <span className="text-gray-600">
+                        {data.bookingExperience.mealsOptions.find(m => m.type === selectedAddOns.meal)?.name || 'Meal selection'}
+                      </span>
+                      <span>
+                        ${(data.bookingExperience.mealsOptions.find(m => m.type === selectedAddOns.meal)?.price || 0).toFixed(2)} × {passengers.length}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Baggage selection */}
+                  {selectedAddOns.baggage && data?.bookingExperience?.baggageOptions && (
+                    <div className="flex justify-between py-2">
+                      <span className="text-gray-600">
+                        {data.bookingExperience.baggageOptions.find(b => b.weight === selectedAddOns.baggage)?.weight || 'Extra baggage'}
+                      </span>
+                      <span>
+                        ${(data.bookingExperience.baggageOptions.find(b => b.weight === selectedAddOns.baggage)?.price || 0).toFixed(2)} × {passengers.length}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Extra add-ons */}
+                  {selectedAddOns.extras.length > 0 && data?.bookingExperience?.addOns && 
+                    selectedAddOns.extras.map((extraType, index) => {
+                      const addon = data.bookingExperience.addOns.find(a => a.type === extraType);
+                      return addon ? (
+                        <div key={index} className="flex justify-between py-2">
+                          <span className="text-gray-600">{addon.name}</span>
+                          <span>${addon.price.toFixed(2)} × {passengers.length}</span>
+                        </div>
+                      ) : null;
+                    })
+                  }
+                  
+                  {/* Subtotal before taxes */}
+                  <div className="flex justify-between py-2 border-t border-gray-100 font-medium">
+                    <span className="text-gray-800">Subtotal</span>
+                    <span>${getTotalPrice().toFixed(2)}</span>
                   </div>
                   
+                  {/* Taxes and fees */}
+                  <div className="flex justify-between py-2">
+                    <span className="text-gray-600">Taxes & Fees</span>
+                    <span>${(Math.round(getTotalPrice() * 0.12)).toFixed(2)}</span>
+                  </div>
+                  
+                  {/* Grand total */}
                   <div className="flex justify-between py-3 border-t border-gray-200 font-bold text-lg">
                     <span>Total</span>
-                    <span>${getTotalPrice() + Math.round(getTotalPrice() * 0.12)}</span>
+                    <span>${(getTotalPrice() + Math.round(getTotalPrice() * 0.12)).toFixed(2)}</span>
                   </div>
                 </div>
                 

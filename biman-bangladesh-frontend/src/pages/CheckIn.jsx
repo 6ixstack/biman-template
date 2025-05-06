@@ -41,7 +41,7 @@ const CheckIn = () => {
     });
     
     // Random flight number
-    const flightNumber = `BG${100 + Math.floor(Math.random() * 900)}`;
+    const flightNumber = 'BG' + (100 + Math.floor(Math.random() * 900));
     
     // Random aircraft
     const aircraftTypes = ['Boeing 787-8', 'Boeing 787-9', 'Boeing 777-300ER', 'Boeing 737-800'];
@@ -50,7 +50,7 @@ const CheckIn = () => {
     // Flight times
     const hour = 6 + Math.floor(Math.random() * 16); // 6 AM to 10 PM
     const minute = Math.floor(Math.random() * 12) * 5; // 0, 5, 10, 15, ... 55
-    const departureTime = \`\${hour.toString().padStart(2, '0')}:\${minute.toString().padStart(2, '0')}\`;
+    const departureTime = hour.toString().padStart(2, '0') + ':' + minute.toString().padStart(2, '0');
     
     // Flight duration
     const durationHours = 1 + Math.floor(Math.random() * 12); // 1-13 hours
@@ -60,7 +60,7 @@ const CheckIn = () => {
     const arrivalDate = new Date(flightDate);
     arrivalDate.setHours(hour + durationHours);
     arrivalDate.setMinutes(minute + durationMinutes);
-    const arrivalTime = \`\${arrivalDate.getHours().toString().padStart(2, '0')}:\${arrivalDate.getMinutes().toString().padStart(2, '0')}\`;
+    const arrivalTime = arrivalDate.getHours().toString().padStart(2, '0') + ':' + arrivalDate.getMinutes().toString().padStart(2, '0');
     
     // Is arrival next day?
     const isNextDay = arrivalDate.getDate() !== flightDate.getDate();
@@ -111,10 +111,10 @@ const CheckIn = () => {
         isNextDay,
         aircraft,
         departureTerminal: '1',
-        departureGate: `G${Math.floor(Math.random() * 30) + 1}`,
+        departureGate: 'G' + (Math.floor(Math.random() * 30) + 1),
         originAirport: 'Hazrat Shahjalal International Airport',
         destinationAirport: 'London Heathrow Airport',
-        duration: \`\${durationHours}h \${durationMinutes}m\`
+        duration: durationHours + 'h ' + durationMinutes + 'm'
       },
       passengers: mockPassengers,
       seatMap
@@ -135,7 +135,7 @@ const CheckIn = () => {
       
       for (let col = 0; col < columns.length; col++) {
         const seat = {
-          id: \`\${row}\${columns[col]}\`,
+          id: row + columns[col],
           row,
           column: columns[col],
           type: isExitRow ? 'exit' : 'standard',
@@ -724,7 +724,7 @@ const CheckIn = () => {
                                 const boardingDate = new Date();
                                 boardingDate.setHours(hours);
                                 boardingDate.setMinutes(minutes - 30);
-                                return \`\${boardingDate.getHours().toString().padStart(2, '0')}:\${boardingDate.getMinutes().toString().padStart(2, '0')}\`;
+                                return boardingDate.getHours().toString().padStart(2, '0') + ':' + boardingDate.getMinutes().toString().padStart(2, '0');
                               })()}
                             </div>
                           </div>

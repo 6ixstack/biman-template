@@ -12,6 +12,261 @@
   "quickSearch": {
     "tabs": ["Flights", "Check-in", "Flight Status", "Manage Booking"]
   },
+  "bookingExperience": {
+    "fareFamilies": [
+      {
+        "name": "Basic",
+        "icon": "shield-check",
+        "price": 0,
+        "color": "gray",
+        "features": [
+          "Cabin baggage only (7kg)",
+          "No flight changes",
+          "No refunds",
+          "No seat selection",
+          "Standard boarding"
+        ],
+        "notIncluded": [
+          "Checked baggage",
+          "Seat selection",
+          "Meal service"
+        ]
+      },
+      {
+        "name": "Standard",
+        "icon": "star",
+        "price": 50,
+        "color": "bimanGreen",
+        "features": [
+          "23kg checked baggage",
+          "Standard seat selection",
+          "Flight changes with fee",
+          "Partial refund available",
+          "Standard meal service",
+          "Priority boarding"
+        ],
+        "notIncluded": [
+          "Premium seat selection",
+          "Free flight changes"
+        ]
+      },
+      {
+        "name": "Flex",
+        "icon": "sparkles",
+        "price": 120,
+        "color": "bimanGold",
+        "features": [
+          "32kg checked baggage",
+          "Premium seat selection",
+          "Free flight changes",
+          "Full refund available",
+          "Premium meal service",
+          "Priority check-in & boarding",
+          "Extra legroom seats",
+          "Lounge access"
+        ],
+        "notIncluded": []
+      }
+    ],
+    "seatingOptions": [
+      {
+        "type": "standard",
+        "name": "Standard Seat",
+        "price": 0,
+        "description": "Comfortable standard economy seat with 31-32 inch pitch"
+      },
+      {
+        "type": "extraLegroom",
+        "name": "Extra Legroom",
+        "price": 35,
+        "description": "Enjoy more space with 36 inch pitch in economy"
+      },
+      {
+        "type": "preferred",
+        "name": "Preferred Seat",
+        "price": 15,
+        "description": "Window or aisle seats in preferred cabin locations"
+      },
+      {
+        "type": "business",
+        "name": "Business Class",
+        "price": 250,
+        "description": "Full-flat beds with premium service and amenities"
+      }
+    ],
+    "mealsOptions": [
+      {
+        "type": "standard",
+        "name": "Standard Meal",
+        "price": 0,
+        "description": "Included meal based on your fare class and flight length"
+      },
+      {
+        "type": "vegetarian",
+        "name": "Vegetarian",
+        "price": 10,
+        "description": "Vegetarian meal option with fresh ingredients"
+      },
+      {
+        "type": "halal",
+        "name": "Halal Meal",
+        "price": 0,
+        "description": "Halal certified meal option"
+      },
+      {
+        "type": "special",
+        "name": "Special Dietary",
+        "price": 15,
+        "description": "Gluten-free, vegan, or other special dietary requirements"
+      },
+      {
+        "type": "premium",
+        "name": "Premium Meal",
+        "price": 25,
+        "description": "Gourmet meal with enhanced quality and presentation"
+      }
+    ],
+    "baggageOptions": [
+      {
+        "weight": "23kg",
+        "price": 0,
+        "description": "Included with Standard fare"
+      },
+      {
+        "weight": "+10kg",
+        "price": 30,
+        "description": "Additional 10kg checked baggage allowance"
+      },
+      {
+        "weight": "+20kg",
+        "price": 55,
+        "description": "Additional 20kg checked baggage allowance"
+      },
+      {
+        "weight": "Sports Equipment",
+        "price": 45,
+        "description": "Special handling for sport equipment up to 23kg"
+      }
+    ],
+    "addOns": [
+      {
+        "type": "lounge",
+        "name": "Lounge Access",
+        "price": 40,
+        "description": "Access to departure lounge with refreshments and amenities"
+      },
+      {
+        "type": "fastTrack",
+        "name": "Fast Track Security",
+        "price": 15,
+        "description": "Express lane through security checkpoint"
+      },
+      {
+        "type": "priorityBoarding",
+        "name": "Priority Boarding",
+        "price": 10,
+        "description": "Be among the first to board the aircraft"
+      },
+      {
+        "type": "wifi",
+        "name": "In-flight Wi-Fi",
+        "price": 8,
+        "description": "1 hour of high-speed internet access during your flight"
+      },
+      {
+        "type": "insurance",
+        "name": "Travel Insurance",
+        "price": 20,
+        "description": "Comprehensive travel insurance coverage"
+      }
+    ]
+  },
+  "manageBookingExperience": {
+    "services": [
+      {
+        "id": "checkIn",
+        "title": "Online Check-in",
+        "icon": "ticket",
+        "description": "Check in online 48 hours before departure and choose your seat",
+        "ctaText": "Check-in Now"
+      },
+      {
+        "id": "seatSelection",
+        "title": "Change Seats",
+        "icon": "chair",
+        "description": "Select or change your seat assignment before your flight",
+        "ctaText": "Manage Seats"
+      },
+      {
+        "id": "addBaggage",
+        "title": "Add Baggage",
+        "icon": "briefcase",
+        "description": "Purchase additional baggage allowance for your journey",
+        "ctaText": "Add Baggage"
+      },
+      {
+        "id": "flightChanges",
+        "title": "Change Flight",
+        "icon": "calendar",
+        "description": "Adjust your travel plans and book a different flight",
+        "ctaText": "Change Flight"
+      },
+      {
+        "id": "upgrade",
+        "title": "Upgrade Fare",
+        "icon": "arrow-trending-up",
+        "description": "Upgrade to a higher fare class or cabin for more comfort",
+        "ctaText": "Upgrade Now"
+      },
+      {
+        "id": "meals",
+        "title": "Meal Preferences",
+        "icon": "cake",
+        "description": "Select or change your in-flight meal preferences",
+        "ctaText": "Select Meals"
+      },
+      {
+        "id": "assistance",
+        "title": "Special Assistance",
+        "icon": "hand-raised",
+        "description": "Request special assistance for your journey",
+        "ctaText": "Request Assistance"
+      },
+      {
+        "id": "addons",
+        "title": "Add Services",
+        "icon": "plus-circle",
+        "description": "Browse and add extra services to enhance your journey",
+        "ctaText": "Add Services"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "How do I retrieve my booking?",
+        "answer": "You can retrieve your booking by entering your 6-character booking reference (PNR) and the last name of the passenger on our Manage Booking page."
+      },
+      {
+        "question": "Can I change my flight date?",
+        "answer": "Yes, you can change your flight date on our Manage Booking page. Depending on your fare type, change fees and fare differences may apply."
+      },
+      {
+        "question": "How can I add extra baggage?",
+        "answer": "You can purchase additional baggage allowance up to 24 hours before your departure through the Manage Booking page."
+      },
+      {
+        "question": "How do I select or change my seat?",
+        "answer": "Seat selection or changes can be made through the Manage Booking page after retrieving your booking information."
+      },
+      {
+        "question": "Can I request special meals?",
+        "answer": "Yes, special meal requests can be added to your booking up to 48 hours before departure through the Manage Booking page."
+      },
+      {
+        "question": "What if I need to cancel my flight?",
+        "answer": "Flight cancellations can be processed through the Manage Booking page. Refund amounts depend on your fare conditions and how far in advance you cancel."
+      }
+    ]
+  },
   "destinations": [
     {
       "id": "dhk",
