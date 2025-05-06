@@ -1,0 +1,639 @@
+{
+  "hero": {
+    "headline": "Fly Higher with Biman Bangladesh",
+    "subheadline": "Discover new horizons with Bangladesh's flag carrier. Seamless journeys, exceptional service, memorable experiences.",
+    "cta": "Book Now",
+    "images": [
+      "/images/hero1.jpg",
+      "/images/hero2.jpg",
+      "/images/hero3.jpg"
+    ]
+  },
+  "quickSearch": {
+    "tabs": ["Flights", "Check-in", "Flight Status", "Manage Booking"]
+  },
+  "destinations": [
+    {
+      "id": "dhk",
+      "name": "Dhaka",
+      "code": "DAC",
+      "country": "Bangladesh",
+      "description": "The vibrant capital city with rich history and culture.",
+      "image": "/images/destinations/dhaka.jpg",
+      "featuredFare": 120,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "cxb",
+      "name": "Cox's Bazar",
+      "code": "CXB",
+      "country": "Bangladesh",
+      "description": "Home to the world's longest natural sea beach.",
+      "image": "/images/destinations/coxs-bazar.jpg",
+      "featuredFare": 80,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "syl",
+      "name": "Sylhet",
+      "code": "ZYL",
+      "country": "Bangladesh",
+      "description": "Land of tea gardens and natural beauty.",
+      "image": "/images/destinations/sylhet.jpg",
+      "featuredFare": 90,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "lon",
+      "name": "London",
+      "code": "LHR",
+      "country": "United Kingdom",
+      "description": "The historic and cultural heart of the United Kingdom.",
+      "image": "/images/destinations/london.jpg",
+      "featuredFare": 750,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "bkk",
+      "name": "Bangkok",
+      "code": "BKK",
+      "country": "Thailand",
+      "description": "Vibrant street life, ornate shrines, and modern cityscape.",
+      "image": "/images/destinations/bangkok.jpg",
+      "featuredFare": 450,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "dxb",
+      "name": "Dubai",
+      "code": "DXB",
+      "country": "United Arab Emirates",
+      "description": "A global city known for luxury shopping and architecture.",
+      "image": "/images/destinations/dubai.jpg",
+      "featuredFare": 520,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "kul",
+      "name": "Kuala Lumpur",
+      "code": "KUL",
+      "country": "Malaysia",
+      "description": "Modern skylines and cultural diversity in one place.",
+      "image": "/images/destinations/kuala-lumpur.jpg",
+      "featuredFare": 390,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "sin",
+      "name": "Singapore",
+      "code": "SIN",
+      "country": "Singapore",
+      "description": "A global financial center with tropical climate.",
+      "image": "/images/destinations/singapore.jpg",
+      "featuredFare": 420,
+      "currency": "USD",
+      "popular": true
+    },
+    {
+      "id": "ist",
+      "name": "Istanbul",
+      "code": "IST",
+      "country": "Turkey",
+      "description": "Where east meets west - a cultural melting pot.",
+      "image": "/images/destinations/istanbul.jpg",
+      "featuredFare": 580,
+      "currency": "USD",
+      "popular": false
+    },
+    {
+      "id": "jed",
+      "name": "Jeddah",
+      "code": "JED",
+      "country": "Saudi Arabia",
+      "description": "Gateway to the holy cities of Mecca and Medina.",
+      "image": "/images/destinations/jeddah.jpg",
+      "featuredFare": 450,
+      "currency": "USD",
+      "popular": false
+    },
+    {
+      "id": "del",
+      "name": "Delhi",
+      "code": "DEL",
+      "country": "India",
+      "description": "A blend of ancient and modern India.",
+      "image": "/images/destinations/delhi.jpg",
+      "featuredFare": 320,
+      "currency": "USD",
+      "popular": false
+    },
+    {
+      "id": "kul",
+      "name": "Kathmandu",
+      "code": "KTM",
+      "country": "Nepal",
+      "description": "The cultural and historical heart of Nepal.",
+      "image": "/images/destinations/kathmandu.jpg",
+      "featuredFare": 280,
+      "currency": "USD",
+      "popular": false
+    }
+  ],
+  "offers": [
+    {
+      "id": "summer-sale",
+      "title": "Summer Escape Sale",
+      "subtitle": "20% off on international flights",
+      "description": "Plan your summer getaway with our special discount on all international destinations. Book by June 30 for travel until September.",
+      "image": "/images/offers/summer-sale.jpg",
+      "ctaText": "Book Now",
+      "ctaLink": "/offers/summer-sale",
+      "expiryDate": "2025-06-30",
+      "tags": ["seasonal", "international"]
+    },
+    {
+      "id": "student-discount",
+      "title": "Student Special",
+      "subtitle": "Extra baggage & 15% discount",
+      "description": "Students get 15% off plus an extra 10kg baggage allowance with valid ID. Perfect for study abroad or visits home.",
+      "image": "/images/offers/student-discount.jpg",
+      "ctaText": "Learn More",
+      "ctaLink": "/offers/student-discount",
+      "expiryDate": "2025-12-31",
+      "tags": ["ongoing", "student"]
+    },
+    {
+      "id": "family-bundle",
+      "title": "Family Travel Bundle",
+      "subtitle": "Save up to 25% for families",
+      "description": "Family travels made affordable with special rates for 2 adults and up to 3 children. Includes priority boarding and meal selection.",
+      "image": "/images/offers/family-bundle.jpg",
+      "ctaText": "Book For Family",
+      "ctaLink": "/offers/family-bundle",
+      "expiryDate": "2025-12-31",
+      "tags": ["ongoing", "family"]
+    },
+    {
+      "id": "weekend-gateway",
+      "title": "Weekend Getaway Flash Sale",
+      "subtitle": "Friday deals every week",
+      "description": "Every Friday, we release special discounted fares for spontaneous weekend trips. Check back weekly for new destinations.",
+      "image": "/images/offers/weekend-flash.jpg",
+      "ctaText": "View This Week's Deals",
+      "ctaLink": "/offers/weekend-flash",
+      "expiryDate": null,
+      "tags": ["recurring", "flash-sale"]
+    }
+  ],
+  "travelClasses": [
+    {
+      "id": "economy",
+      "name": "Economy",
+      "description": "Comfortable seating, complimentary meals, and in-flight entertainment for a pleasant journey.",
+      "features": [
+        "32-inch seat pitch",
+        "Complimentary meals and beverages",
+        "Personal entertainment system",
+        "USB charging port",
+        "20kg checked baggage allowance"
+      ],
+      "image": "/images/classes/economy.jpg"
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "description": "Elevated travel experience with premium services, priority treatment, and extra comfort.",
+      "features": [
+        "Fully reclinable seats with 60-inch pitch",
+        "Premium dining experience with chef-curated menu",
+        "Priority check-in, boarding, and baggage handling",
+        "Dedicated cabin crew service",
+        "Access to airport lounges",
+        "40kg checked baggage allowance"
+      ],
+      "image": "/images/classes/business.jpg"
+    },
+    {
+      "id": "first",
+      "name": "First Class",
+      "description": "The ultimate luxury in air travel with personalized service and exclusive amenities.",
+      "features": [
+        "Private suite with fully flat bed",
+        "Gourmet dining experience with à la carte options",
+        "Premium amenity kit and sleepwear",
+        "Chauffeur service at select destinations",
+        "Exclusive lounge access with spa treatments",
+        "50kg checked baggage allowance"
+      ],
+      "image": "/images/classes/first.jpg"
+    }
+  ],
+  "fleetInfo": [
+    {
+      "type": "Boeing 787-9 Dreamliner",
+      "image": "/images/fleet/787-9.jpg",
+      "description": "Our flagship aircraft offering state-of-the-art comfort and efficiency.",
+      "features": [
+        "Lower cabin altitude and higher humidity for reduced jet lag",
+        "Larger windows with electronic dimming",
+        "Reduced noise levels",
+        "LED mood lighting"
+      ],
+      "cabinLayout": {
+        "first": 0,
+        "business": 30,
+        "economy": 270
+      }
+    },
+    {
+      "type": "Boeing 787-8 Dreamliner",
+      "image": "/images/fleet/787-8.jpg",
+      "description": "Advanced long-haul aircraft with enhanced passenger comfort.",
+      "features": [
+        "More spacious cabins with larger overhead bins",
+        "Advanced air filtration system",
+        "Lower carbon footprint with improved fuel efficiency",
+        "LED mood lighting"
+      ],
+      "cabinLayout": {
+        "first": 0,
+        "business": 24,
+        "economy": 247
+      }
+    },
+    {
+      "type": "Boeing 777-300ER",
+      "image": "/images/fleet/777-300er.jpg",
+      "description": "Reliable long-haul aircraft with spacious interiors and excellent range.",
+      "features": [
+        "Spacious 3-3-3 configuration in Economy",
+        "Personal entertainment screens at every seat",
+        "Power outlets and USB ports",
+        "Mood lighting"
+      ],
+      "cabinLayout": {
+        "first": 4,
+        "business": 36,
+        "economy": 388
+      }
+    },
+    {
+      "type": "Boeing 737-800",
+      "image": "/images/fleet/737-800.jpg",
+      "description": "Efficient narrow-body aircraft for short to medium-haul routes.",
+      "features": [
+        "Comfortable seating for shorter journeys",
+        "Modern cabin interior",
+        "Overhead entertainment screens",
+        "USB charging ports"
+      ],
+      "cabinLayout": {
+        "first": 0,
+        "business": 12,
+        "economy": 150
+      }
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "1",
+      "quote": "The new Dreamliner experience was exceptional - comfortable seats, attentive crew, and smooth flight all the way to London.",
+      "author": "Ahmed Rahman",
+      "location": "Dhaka, Bangladesh",
+      "rating": 5,
+      "image": "/images/testimonials/ahmed.jpg"
+    },
+    {
+      "id": "2",
+      "quote": "I love the new mobile app - checking in was so easy and I could track my flight status in real-time.",
+      "author": "Priya Sharma",
+      "location": "London, UK",
+      "rating": 5,
+      "image": "/images/testimonials/priya.jpg"
+    },
+    {
+      "id": "3",
+      "quote": "Business class on Biman is now world-class. The fully reclining seats and gourmet food made my journey to Dubai truly enjoyable.",
+      "author": "Tanvir Ahmed",
+      "location": "Chittagong, Bangladesh",
+      "rating": 5,
+      "image": "/images/testimonials/tanvir.jpg"
+    },
+    {
+      "id": "4",
+      "quote": "The student discount and extra baggage allowance made my travel to university so much more affordable.",
+      "author": "Maliha Khan",
+      "location": "Kuala Lumpur, Malaysia",
+      "rating": 4,
+      "image": "/images/testimonials/maliha.jpg"
+    },
+    {
+      "id": "5",
+      "quote": "The crew was extremely helpful when traveling with my elderly parents. Their special assistance service is outstanding.",
+      "author": "Rahul Bose",
+      "location": "Kolkata, India",
+      "rating": 5,
+      "image": "/images/testimonials/rahul.jpg"
+    }
+  ],
+  "destinations_guides": [
+    {
+      "id": "dhaka",
+      "destination": "Dhaka",
+      "image": "/images/guides/dhaka.jpg",
+      "intro": "Experience the vibrant energy of Bangladesh's capital city.",
+      "highlights": [
+        "Lalbagh Fort",
+        "Ahsan Manzil",
+        "Liberation War Museum",
+        "Dhakeshwari Temple",
+        "National Parliament House"
+      ],
+      "bestTimeToVisit": "November to February",
+      "localCuisine": [
+        "Kacchi Biryani",
+        "Bhuna Khichuri",
+        "Fuchka",
+        "Old Dhaka's Bakarkhani"
+      ],
+      "travelTips": [
+        "Use ride-sharing apps for convenient travel around the city",
+        "Visit Old Dhaka for authentic local cuisine",
+        "Shop for traditional handicrafts at Aarong",
+        "Try the street food but be careful about hygiene"
+      ]
+    },
+    {
+      "id": "coxsbazar",
+      "destination": "Cox's Bazar",
+      "image": "/images/guides/coxsbazar.jpg",
+      "intro": "Discover the world's longest natural sea beach and surrounding beauty.",
+      "highlights": [
+        "120km Unbroken Sandy Beach",
+        "Inani Beach",
+        "Himchari National Park",
+        "Buddhist Temples",
+        "Marine Drive"
+      ],
+      "bestTimeToVisit": "November to March",
+      "localCuisine": [
+        "Fresh Seafood",
+        "Dried Fish (Shutki)",
+        "Coconut Water",
+        "Local Pithas"
+      ],
+      "travelTips": [
+        "Book beachfront hotels in advance during peak season",
+        "Try local seafood at Kolatoli Beach restaurants",
+        "Take a day trip to Saint Martin's Island",
+        "Respect local customs and dress modestly away from tourist areas"
+      ]
+    },
+    {
+      "id": "london",
+      "destination": "London",
+      "image": "/images/guides/london.jpg",
+      "intro": "Explore the historic capital of the United Kingdom, a melting pot of culture and innovation.",
+      "highlights": [
+        "British Museum",
+        "Tower of London",
+        "Buckingham Palace",
+        "London Eye",
+        "Westminster Abbey"
+      ],
+      "bestTimeToVisit": "April to September",
+      "localCuisine": [
+        "Fish and Chips",
+        "Full English Breakfast",
+        "Afternoon Tea",
+        "Sunday Roast"
+      ],
+      "travelTips": [
+        "Get an Oyster card for public transport",
+        "Many museums are free to enter",
+        "Book West End shows in advance for the best deals",
+        "Explore different neighborhoods like Shoreditch and Camden"
+      ]
+    }
+  ],
+  "loyaltyProgram": {
+    "name": "Biman Loyalty Wings",
+    "tiers": [
+      {
+        "name": "Blue",
+        "qualification": "Entry level",
+        "benefits": [
+          "Earn miles on Biman flights",
+          "Miles validity for 2 years",
+          "Use miles for award tickets"
+        ]
+      },
+      {
+        "name": "Silver",
+        "qualification": "25,000 miles in 12 months",
+        "benefits": [
+          "All Blue tier benefits",
+          "10% bonus miles",
+          "Priority check-in",
+          "Extra baggage allowance (10kg)",
+          "Priority waitlist"
+        ]
+      },
+      {
+        "name": "Gold",
+        "qualification": "50,000 miles in 12 months",
+        "benefits": [
+          "All Silver tier benefits",
+          "25% bonus miles",
+          "Lounge access",
+          "Priority boarding",
+          "Extra baggage allowance (20kg)",
+          "Guaranteed reservation on full flights"
+        ]
+      },
+      {
+        "name": "Platinum",
+        "qualification": "100,000 miles in 12 months",
+        "benefits": [
+          "All Gold tier benefits",
+          "50% bonus miles",
+          "Premium lounge access with guest",
+          "Fast track security",
+          "Extra baggage allowance (30kg)",
+          "Complimentary upgrades twice per year"
+        ]
+      }
+    ],
+    "partners": [
+      {
+        "name": "Partner Hotels",
+        "description": "Earn and redeem miles at select hotels in Bangladesh and worldwide.",
+        "logo": "/images/loyalty/hotels.png"
+      },
+      {
+        "name": "Car Rental",
+        "description": "Earn miles when renting cars from our partner companies.",
+        "logo": "/images/loyalty/car-rental.png"
+      },
+      {
+        "name": "Credit Cards",
+        "description": "Co-branded credit cards to earn miles on everyday purchases.",
+        "logo": "/images/loyalty/credit-cards.png"
+      },
+      {
+        "name": "Shopping",
+        "description": "Earn miles when shopping with our retail partners.",
+        "logo": "/images/loyalty/shopping.png"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "question": "What is the baggage allowance for international flights?",
+      "answer": "Economy Class: 30kg, Business Class: 40kg, First Class: 50kg. Hand baggage allowance is 7kg for Economy and 10kg for Business and First Class. Specific routes may have different allowances, please check your ticket or contact our customer service.",
+      "category": "baggage"
+    },
+    {
+      "question": "How early should I arrive at the airport?",
+      "answer": "We recommend arriving 3 hours before international flights and 2 hours before domestic flights to allow sufficient time for check-in, security procedures, and boarding.",
+      "category": "check-in"
+    },
+    {
+      "question": "Can I select my seat in advance?",
+      "answer": "Yes, seat selection is available during booking or later through Manage Booking on our website or mobile app. Some premium seats may incur an additional charge.",
+      "category": "booking"
+    },
+    {
+      "question": "How can I request special assistance?",
+      "answer": "Special assistance for elderly passengers, passengers with reduced mobility, or special medical needs can be requested during booking or by contacting our customer service at least 48 hours before your flight.",
+      "category": "special-services"
+    },
+    {
+      "question": "What is your refund and cancellation policy?",
+      "answer": "Refund and cancellation policies vary depending on the fare type. Generally, economy promotional fares are non-refundable, while higher fares and business class tickets offer more flexibility. Check your fare conditions or contact customer service for specific details.",
+      "category": "refunds"
+    },
+    {
+      "question": "How can I join the Biman Loyalty Wings program?",
+      "answer": "You can join our loyalty program for free on our website or mobile app. Simply provide your details to receive your membership number instantly and start earning miles on your very next flight.",
+      "category": "loyalty"
+    },
+    {
+      "question": "Do you offer in-flight Wi-Fi?",
+      "answer": "Wi-Fi is available on our Boeing 787 Dreamliner aircraft. Basic messaging is free for all passengers, while full internet access is complimentary for Business and First Class passengers and available for purchase in Economy.",
+      "category": "in-flight"
+    },
+    {
+      "question": "What COVID-19 safety measures do you have in place?",
+      "answer": "We follow strict health and safety protocols including enhanced cleaning procedures, HEPA air filters on all aircraft, mandatory mask-wearing, and contactless check-in options. Specific requirements may vary based on departure and arrival countries.",
+      "category": "health-safety"
+    }
+  ],
+  "contact": {
+    "customerService": {
+      "phone": "+880 2 8901600",
+      "email": "customer.service@biman-airlines.com",
+      "hours": "24/7"
+    },
+    "reservations": {
+      "phone": "+880 2 8901500",
+      "email": "reservations@biman-airlines.com",
+      "hours": "08:00 - 20:00 (GMT+6), 7 days a week"
+    },
+    "offices": [
+      {
+        "city": "Dhaka",
+        "address": "Balaka Bhaban, Kurmitola, Dhaka-1229, Bangladesh",
+        "phone": "+880 2 8901500",
+        "email": "dhaka.office@biman-airlines.com"
+      },
+      {
+        "city": "London",
+        "address": "125 Middlesex Street, London E1 7JF, United Kingdom",
+        "phone": "+44 20 7247 5521",
+        "email": "london.office@biman-airlines.com"
+      },
+      {
+        "city": "Dubai",
+        "address": "Shop No. 11, Al Naboodah Building, Al Maktoum Street, Deira, Dubai, UAE",
+        "phone": "+971 4 2221100",
+        "email": "dubai.office@biman-airlines.com"
+      }
+    ],
+    "socialMedia": {
+      "facebook": "https://www.facebook.com/BimanBangladeshAirlines",
+      "twitter": "https://twitter.com/BimanAirlines",
+      "instagram": "https://www.instagram.com/bimanbangladesh/",
+      "youtube": "https://www.youtube.com/BimanBangladeshAirlines"
+    }
+  },
+  "translations": {
+    "en": {
+      "nav": {
+        "home": "Home",
+        "book": "Book",
+        "manage": "Manage",
+        "checkIn": "Check-in",
+        "flightStatus": "Flight Status",
+        "destinations": "Destinations",
+        "offers": "Offers",
+        "loyalty": "Loyalty"
+      },
+      "hero": {
+        "headline": "Fly Higher with Biman Bangladesh",
+        "subheadline": "Discover new horizons with Bangladesh's flag carrier. Seamless journeys, exceptional service, memorable experiences.",
+        "cta": "Book Now"
+      },
+      "flightSearch": {
+        "roundTrip": "Round Trip",
+        "oneWay": "One Way",
+        "multiCity": "Multi-City",
+        "from": "From",
+        "to": "To",
+        "departDate": "Depart Date",
+        "returnDate": "Return Date",
+        "passengers": "Passengers",
+        "class": "Class",
+        "searchButton": "Search Flights",
+        "promoCode": "Promo Code"
+      }
+    },
+    "bn": {
+      "nav": {
+        "home": "হোম",
+        "book": "বুক",
+        "manage": "ম্যানেজ",
+        "checkIn": "চেক-ইন",
+        "flightStatus": "ফ্লাইট স্ট্যাটাস",
+        "destinations": "গন্তব্যসমূহ",
+        "offers": "অফারসমূহ",
+        "loyalty": "লয়্যালটি"
+      },
+      "hero": {
+        "headline": "বিমান বাংলাদেশ এর সাথে উড়ুন আরও উঁচুতে",
+        "subheadline": "বাংলাদেশের জাতীয় বিমান সংস্থার সাথে আবিষ্কার করুন নতুন দিগন্ত। নিরবচ্ছিন্ন যাত্রা, অসাধারণ পরিষেবা, অবিস্মরণীয় অভিজ্ঞতা।",
+        "cta": "এখনই বুক করুন"
+      },
+      "flightSearch": {
+        "roundTrip": "রাউন্ড ট্রিপ",
+        "oneWay": "ওয়ান ওয়ে",
+        "multiCity": "মাল্টি-সিটি",
+        "from": "যাত্রা শুরু",
+        "to": "গন্তব্য",
+        "departDate": "প্রস্থান তারিখ",
+        "returnDate": "ফেরার তারিখ",
+        "passengers": "যাত্রী",
+        "class": "শ্রেণি",
+        "searchButton": "ফ্লাইট খুঁজুন",
+        "promoCode": "প্রোমো কোড"
+      }
+    }
+  }
+}
